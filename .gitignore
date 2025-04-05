@@ -1,0 +1,19 @@
+# JS/TS
+node_modules
+
+# Builds
+/dist
+
+# Coverage directory used by testing tools
+coverage
+
+# npm debug logs
+npm-debug.log*
+
+# General #
+
+# Visual Studio Code configuration
+.vscode/
+
+# macOS settings file 
+.DS_Store
