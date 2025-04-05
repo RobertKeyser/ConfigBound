@@ -10,6 +10,9 @@ coverage
 # npm debug logs
 npm-debug.log*
 
+# Turbo build cache
+.turbo
+
 # General #
 
 # Visual Studio Code configuration

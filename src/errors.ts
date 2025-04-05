@@ -1,4 +1,6 @@
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { ConfigElement } from './configElement';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { ConfigSection } from './configSection';
 
 /**

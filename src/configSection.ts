@@ -17,11 +17,11 @@ export class ConfigSection {
   /**
    * The {@link ConfigElement ConfigElements} of the ConfigSection
    */
-  private elements: ConfigElement<any>[];
+  private elements: ConfigElement<unknown>[];
 
   constructor(
     name: string,
-    elements: ConfigElement<any>[],
+    elements: ConfigElement<unknown>[],
     description?: string
   ) {
     this.name = sanitizeName(name);
@@ -35,8 +35,8 @@ export class ConfigSection {
    * @returns An array of ConfigElements that have duplicate names
    */
   public static findDuplicateElements(
-    elements: ConfigElement<any>[]
-  ): ConfigElement<any>[] {
+    elements: ConfigElement<unknown>[]
+  ): ConfigElement<unknown>[] {
     // Count occurrences of each name
     const nameCounts = elements.reduce(
       (acc, element) => {
@@ -59,7 +59,7 @@ export class ConfigSection {
    * Sets the {@link ConfigElement ConfigElements} of the ConfigSection
    * @param elements - The array of ConfigElements to set
    */
-  public setElements(elements: ConfigElement<any>[]) {
+  public setElements(elements: ConfigElement<unknown>[]) {
     const duplicateElements = ConfigSection.findDuplicateElements(elements);
     if (duplicateElements.length > 0) {
       throw new ElementExistsException(duplicateElements[0].name);
@@ -71,7 +71,7 @@ export class ConfigSection {
    * Adds a {@link ConfigElement ConfigElement} to the ConfigSection
    * @param element - The ConfigElement to add
    */
-  public addElement(element: ConfigElement<any>) {
+  public addElement(element: ConfigElement<unknown>) {
     // Create a new array with all current elements plus the new one
     const newElements = this.elements.concat([element]);
 

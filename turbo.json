@@ -1,0 +1,25 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "tasks": {
+    "build": {
+      "outputs": ["dist/**"]
+    },
+    "test": {},
+    "test:coverage": {
+      "outputs": ["coverage/**"]
+    },
+    "lint": {
+      "cache": false,
+      "dependsOn": ["format"]
+    },
+    "lint:ci": {},
+    "format": {
+      "cache": false
+    },
+    "format:ci": {},
+    "test:watch": {
+      "cache": false,
+      "persistent": true
+    }
+  }
+}

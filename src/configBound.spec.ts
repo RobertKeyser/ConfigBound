@@ -5,6 +5,7 @@ import { SectionExistsException } from './errors';
 // Mock the ConfigSection class
 jest.mock('./configSection', () => {
   return {
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     ConfigSection: jest.fn().mockImplementation((name) => {
       return {
         name: name,
