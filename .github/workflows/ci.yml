@@ -31,10 +31,10 @@ jobs:
         run: npm ci --no-fund
       - name: Check Formatting
         id: fmt
-        run: turbo format:ci
+        run: npx turbo format:ci
       - name: Lint
         id: lint
-        run: turbo lint:ci
+        run: npx turbo lint:ci
       - name: Run Unit Tests
         id: test
-        run: turbo test
+        run: npx turbo test
