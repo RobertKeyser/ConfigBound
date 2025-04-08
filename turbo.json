@@ -8,6 +8,10 @@
     "test:coverage": {
       "outputs": ["coverage/**"]
     },
+    "test:watch": {
+      "cache": false,
+      "persistent": true
+    },
     "lint": {
       "cache": false,
       "dependsOn": ["format"]
@@ -16,10 +20,6 @@
     "format": {
       "cache": false
     },
-    "format:ci": {},
-    "test:watch": {
-      "cache": false,
-      "persistent": true
-    }
+    "format:ci": {}
   }
 }
