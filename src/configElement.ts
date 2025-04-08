@@ -1,4 +1,5 @@
-import { ConfigUnsetException } from './errors';
+import Joi from 'joi';
+import { ConfigInvalidException, ConfigUnsetException } from './errors';
 import { sanitizeName } from './utilities/sanitizeNames';
 
 /**
@@ -26,6 +27,10 @@ export class ConfigElement<T> {
    */
   example?: T;
   /**
+   * The Joi validator of the ConfigElement
+   */
+  validator: Joi.AnySchema<T>;
+  /**
    * The value of the ConfigElement
    */
   value?: T;
@@ -35,13 +40,35 @@ export class ConfigElement<T> {
     description?: string,
     defaultValue?: T,
     exampleValue?: T,
-    sensitive: boolean = false
+    sensitive: boolean = false,
+    validator: Joi.AnySchema<T> = Joi.any<T>()
   ) {
     this.name = sanitizeName(name);
     this.description = description;
-    this.default = defaultValue;
-    this.example = exampleValue;
+    this.validator = validator;
+
+    // Ensure the default value is valid
+    if (defaultValue) {
+      const defaultValueResult = this.validator.validate(defaultValue);
+      if (defaultValueResult.error) {
+        throw new ConfigInvalidException(
+          this.name,
+          defaultValueResult.error.message
+        );
+      }
+    }
     this.sensitive = sensitive;
+    this.default = defaultValue;
+
+    // Example values are not validated because they might use placeholder values that wouldn't validate
+    this.example = exampleValue;
+  }
+
+  /**
+   * Returns true if the ConfigElement is required
+   */
+  isRequired(): boolean {
+    return this.validator._flags.presence === 'required';
   }
 
   /**
@@ -49,7 +76,11 @@ export class ConfigElement<T> {
    * @param value - The value of the element
    */
   set(value?: T): void {
-    this.value = value ?? this.default;
+    const result = this.validator.validate(value);
+    if (result.error) {
+      throw new ConfigInvalidException(this.name, result.error.message);
+    }
+    this.value = result.value ?? this.default;
   }
 
   /**

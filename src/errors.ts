@@ -4,18 +4,41 @@ import { ConfigElement } from './configElement';
 import { ConfigSection } from './configSection';
 
 /**
- * An error that occurs when a {@link ConfigElement ConfigElement} is unset
+ * An abstract error class that occurs when a {@link ConfigElement ConfigElement} has an invalid value.
  */
-export class ConfigUnsetException extends Error {
-  constructor(message: string) {
+export abstract class ConfigValueException extends Error {
+  constructor(elementName: string, message?: string) {
     super();
-    this.name = ConfigUnsetException.name;
-    this.message = message;
+    this.name = this.constructor.name;
+    this.message = this.getBaseMessage(elementName);
+    if (message) {
+      this.message = `${this.message}: ${message}`;
+    }
+  }
+
+  protected abstract getBaseMessage(elementName: string): string;
+}
+
+/**
+ * An error that occurs when a {@link ConfigElement ConfigElement} is unset.
+ */
+export class ConfigUnsetException extends ConfigValueException {
+  protected getBaseMessage(elementName: string): string {
+    return `Value unset for ${elementName}`;
   }
 }
 
 /**
- * An error that occurs when an item already exists
+ * An error that occurs when a {@link ConfigElement ConfigElement} is invalid.
+ */
+export class ConfigInvalidException extends ConfigValueException {
+  protected getBaseMessage(elementName: string): string {
+    return `Invalid value for ${elementName}`;
+  }
+}
+
+/**
+ * An abstract error class that occurs when an item already exists.
  */
 export abstract class ItemExistsException extends Error {
   constructor(itemType: string, itemName: string, additionalMessage?: string) {
@@ -29,7 +52,7 @@ export abstract class ItemExistsException extends Error {
 }
 
 /**
- * An error that occurs when a {@link ConfigSection ConfigSection} already exists
+ * An error that occurs when a {@link ConfigSection ConfigSection} already exists.
  */
 export class SectionExistsException extends ItemExistsException {
   constructor(sectionName: string, additionalMessage?: string) {
@@ -39,7 +62,7 @@ export class SectionExistsException extends ItemExistsException {
 }
 
 /**
- * An error that occurs when a {@link ConfigElement ConfigElement} already exists
+ * An error that occurs when a {@link ConfigElement ConfigElement} already exists.
  */
 export class ElementExistsException extends ItemExistsException {
   constructor(elementName: string, additionalMessage?: string) {
@@ -49,7 +72,7 @@ export class ElementExistsException extends ItemExistsException {
 }
 
 /**
- * An error that occurs when the name of a configuration component is invalid
+ * An error that occurs when the name of a configuration component is invalid.
  */
 export class InvalidNameException extends Error {
   constructor(message: string) {

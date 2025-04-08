@@ -11,7 +11,7 @@ describe('Error Classes', () => {
     test('should set name and message correctly', () => {
       const error = new ConfigUnsetException('test-element');
       expect(error.name).toBe('ConfigUnsetException');
-      expect(error.message).toBe('test-element');
+      expect(error.message).toBe('Value unset for test-element');
     });
   });
 

@@ -1,5 +1,6 @@
+import Joi from 'joi';
 import { ConfigElement } from './configElement';
-import { ConfigUnsetException } from './errors';
+import { ConfigInvalidException, ConfigUnsetException } from './errors';
 
 describe('ConfigElement', () => {
   let configElement: ConfigElement<string>;
@@ -21,6 +22,20 @@ describe('ConfigElement', () => {
     expect(configElement.example).toBe('exampleValue');
     expect(configElement.sensitive).toBe(false);
     expect(configElement.value).toBeUndefined();
+  });
+
+  // Test for constructor with invalid default value
+  test('constructor should throw ConfigInvalidException when default value is invalid', () => {
+    expect(() => {
+      new ConfigElement<number>(
+        'invalidDefault',
+        'Config with invalid default',
+        -10, // Invalid default according to validator
+        100,
+        false,
+        Joi.number().min(0).max(100) // Validator requires positive numbers
+      );
+    }).toThrow(ConfigInvalidException);
   });
 
   test('set method should set the value', () => {
@@ -49,5 +64,30 @@ describe('ConfigElement', () => {
 
   test('getOrThrow method should throw ConfigUnsetException if value is not set', () => {
     expect(() => configElement.getOrThrow()).toThrow(ConfigUnsetException);
+  });
+
+  // Test for isRequired functionality
+  test('isRequired should return true when validator has required presence', () => {
+    const configElement = new ConfigElement<string>(
+      'requiredConfig',
+      'A required config element',
+      'default',
+      'example',
+      false,
+      Joi.string().required()
+    );
+
+    expect(configElement.isRequired()).toBe(true);
+  });
+
+  test('isRequired should return false when validator does not have required presence', () => {
+    const configElement = new ConfigElement<string>(
+      'optionalConfig',
+      'An optional config element',
+      'default',
+      'example'
+    );
+
+    expect(configElement.isRequired()).toBe(false);
   });
 });

@@ -18,7 +18,7 @@ export default defineConfig([
       '@/no-duplicate-imports': 'error',
       '@/eol-last': 'error',
       '@/no-trailing-spaces': 'error',
-      '@/prefer-const': 'error',
+      '@/prefer-const': 'error'
     }
   },
   {
