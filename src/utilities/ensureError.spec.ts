@@ -1,5 +1,8 @@
 import { ensureError } from './ensureError';
 
+/**
+ * @group unit
+ */
 describe('ensureError', () => {
   test('returns the error when passed an Error instance', () => {
     // Arrange

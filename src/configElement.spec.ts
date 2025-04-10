@@ -1,11 +1,20 @@
 import Joi from 'joi';
 import { ConfigElement } from './configElement';
 import { ConfigInvalidException, ConfigUnsetException } from './errors';
+import { ConfigBound } from './configBound';
+import { ConfigSection } from './configSection';
+import { EnvVarBind } from './configBinds/envVar';
 
+/**
+ * @group unit
+ */
 describe('ConfigElement', () => {
+  let configBound: ConfigBound;
   let configElement: ConfigElement<string>;
+  let configElementNoDefault: ConfigElement<string>;
 
   beforeEach(() => {
+    // Element with default value
     configElement = new ConfigElement<string>(
       'testName',
       'A test config element',
@@ -13,6 +22,26 @@ describe('ConfigElement', () => {
       'exampleValue',
       false
     );
+
+    // Element without default value
+    configElementNoDefault = new ConfigElement<string>(
+      'testNoDefault',
+      'A test config element without default',
+      undefined,
+      'exampleValue',
+      false
+    );
+
+    // Create section with both elements
+    const configSection = new ConfigSection('TestSection', [
+      configElement,
+      configElementNoDefault
+    ]);
+
+    // Create bind and config bound
+    const envVarBind = new EnvVarBind();
+    configBound = new ConfigBound('TestConfig', [envVarBind], []);
+    configBound.addConfigSection(configSection);
   });
 
   test('should initialize with correct values', () => {
@@ -50,20 +79,32 @@ describe('ConfigElement', () => {
 
   test('get method should return the current value', () => {
     configElement.set('newValue');
-    expect(configElement.get()).toBe('newValue');
+    expect(configElement.get(configBound)).toBe('newValue');
   });
 
-  test('get method should return undefined if value is not set', () => {
-    expect(configElement.get()).toBeUndefined();
+  test('get method should return default if value is not set and default exists', () => {
+    // Element with default should return default
+    expect(configElement.get(configBound)).toBe('defaultValue');
+  });
+
+  test('get method should return undefined if value is not set and no default exists', () => {
+    // Element without default should return undefined
+    expect(configElementNoDefault.get(configBound)).toBeUndefined();
   });
 
   test('getOrThrow method should return the value if set', () => {
     configElement.set('newValue');
-    expect(configElement.getOrThrow()).toBe('newValue');
+    expect(configElement.getOrThrow(configBound)).toBe('newValue');
   });
 
-  test('getOrThrow method should throw ConfigUnsetException if value is not set', () => {
-    expect(() => configElement.getOrThrow()).toThrow(ConfigUnsetException);
+  test('getOrThrow method should return default if value is not set but default exists', () => {
+    expect(configElement.getOrThrow(configBound)).toBe('defaultValue');
+  });
+
+  test('getOrThrow method should throw ConfigUnsetException if value is not set and no default exists', () => {
+    expect(() => configElementNoDefault.getOrThrow(configBound)).toThrow(
+      ConfigUnsetException
+    );
   });
 
   // Test for isRequired functionality

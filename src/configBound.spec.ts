@@ -9,66 +9,57 @@ jest.mock('./configSection', () => {
     ConfigSection: jest.fn().mockImplementation((name) => {
       return {
         name: name,
-        configItems: []
+        configItems: [],
+        setLogger: jest.fn(),
+        setBindContext: jest.fn()
       };
     })
   };
 });
 
+/**
+ * @group unit
+ */
 describe('ConfigBound', () => {
-  let configBound: any;
-  let mockConfigSection: ConfigSection;
+  let configBound: ConfigBound;
+  let mockConfigSection1: ConfigSection;
 
   beforeEach(() => {
     // Reset the mocks
     jest.clearAllMocks();
 
-    // Create a new ConfigBound instance using any since constructor is private
-    configBound = Object.create(ConfigBound.prototype);
-    configBound.name = 'TestConfig';
-    configBound.sections = [];
-
-    // Create a mock ConfigSection
-    mockConfigSection = new ConfigSection('TestSection', []);
-  });
-
-  describe('constructor', () => {
-    it('should set the name and envVarPrefix correctly', () => {
-      // Since constructor is private, use reflection
-      const configBoundAny = ConfigBound as any;
-      const instance = new configBoundAny('TestName', [], 'TEST_PREFIX_');
-
-      expect(instance.name).toBe('TestName');
-      // Test that the global envVarPrefix was set
-      expect(require('./configBound').envVarPrefix).toBe('TEST_PREFIX_');
-    });
+    mockConfigSection1 = new ConfigSection('TestSection1', []);
+    configBound = new ConfigBound('TestConfig', [], []);
   });
 
   describe('addConfigSection', () => {
     it('should add a ConfigSection to the sections array', () => {
+      const configBoundAny = configBound as any;
+
       // Arrange
-      expect(configBound.sections.length).toBe(0);
+      expect(configBoundAny.sections.length).toBe(0);
 
       // Act
-      configBound.addConfigSection(mockConfigSection);
+      configBound.addConfigSection(mockConfigSection1);
 
       // Assert
-      expect(configBound.sections.length).toBe(1);
-      expect(configBound.sections[0]).toBe(mockConfigSection);
+      expect(configBoundAny.sections.length).toBe(1);
+      expect(configBoundAny.sections[0]).toBe(mockConfigSection1);
     });
 
     it('should add multiple ConfigSections to the sections array', () => {
       // Arrange
+      const configBoundAny = configBound as any;
       const mockConfigSection2 = new ConfigSection('TestSection2', []);
 
       // Act
-      configBound.addConfigSection(mockConfigSection);
+      configBound.addConfigSection(mockConfigSection1);
       configBound.addConfigSection(mockConfigSection2);
 
       // Assert
-      expect(configBound.sections.length).toBe(2);
-      expect(configBound.sections[0]).toBe(mockConfigSection);
-      expect(configBound.sections[1]).toBe(mockConfigSection2);
+      expect(configBoundAny['sections'].length).toBe(2);
+      expect(configBoundAny.sections[0]).toBe(mockConfigSection1);
+      expect(configBoundAny.sections[1]).toBe(mockConfigSection2);
     });
 
     it('should throw SectionExistsException when adding a section with the same name', () => {

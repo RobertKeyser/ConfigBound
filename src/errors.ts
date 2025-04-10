@@ -81,3 +81,25 @@ export class InvalidNameException extends Error {
     this.message = message;
   }
 }
+
+/**
+ * An error that occurs when a {@link ConfigSection ConfigSection} is not found.
+ */
+export class SectionNotFoundException extends Error {
+  constructor(sectionName: string) {
+    super();
+    this.name = SectionNotFoundException.name;
+    this.message = `Section with name ${sectionName} not found.`;
+  }
+}
+
+/**
+ * An error that occurs when a {@link ConfigElement ConfigElement} is not found.
+ */
+export class ElementNotFoundException extends Error {
+  constructor(elementName: string) {
+    super();
+    this.name = ElementNotFoundException.name;
+    this.message = `Element with name ${elementName} not found.`;
+  }
+}

@@ -2,6 +2,9 @@ import { ConfigSection } from './configSection';
 import { ConfigElement } from './configElement';
 import { ElementExistsException } from './errors';
 
+/**
+ * @group unit
+ */
 describe('ConfigSection', () => {
   let section: ConfigSection;
   let element1: ConfigElement<string>;
