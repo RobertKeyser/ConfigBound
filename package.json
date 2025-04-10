@@ -1,7 +1,6 @@
 {
   "name": "config-bound",
   "version": "0.0.1",
-  "main": "index.ts",
   "type": "module",
   "packageManager": "npm@10.5.0",
   "scripts": {
@@ -14,9 +13,9 @@
     "lint:ci": "eslint .",
     "build": "tsc"
   },
-  "author": "",
-  "license": "ISC",
-  "description": "",
+  "author": "Robert Keyser",
+  "license": "MIT",
+  "description": "A config registration library",
   "devDependencies": {
     "@eslint/js": "^9.24.0",
     "@types/jest": "^29.5.14",
