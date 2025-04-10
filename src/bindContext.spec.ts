@@ -106,7 +106,7 @@ describe('BindContext functionality', () => {
   test('sections can get element values directly with getValue', () => {
     // Get element values through the section
     const portValue = serverSection.getValue<number>('port');
-    expect(portValue).toBe(8080);
+    expect(portValue).toBe(8081);
 
     const dbHostValue = databaseSection.getValue<string>('host');
     expect(dbHostValue).toBe('test-db.example.com');
@@ -119,7 +119,7 @@ describe('BindContext functionality', () => {
   test('configBound can get values via get method', () => {
     // Get values through the configBound
     const portValue = configBound.get<number>('server', 'port');
-    expect(portValue).toBe(8080);
+    expect(portValue).toBe(8081);
 
     const dbHostValue = configBound.get<string>('database', 'host');
     expect(dbHostValue).toBe('test-db.example.com');

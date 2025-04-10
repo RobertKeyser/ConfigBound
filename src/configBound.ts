@@ -1,4 +1,5 @@
-import { BindContext, ConfigBind } from './configBind';
+import { BindContext } from './bindContext';
+import { ConfigBind } from './configBind';
 import { ConfigSection } from './configSection';
 import {
   ElementNotFoundException,

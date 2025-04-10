@@ -28,8 +28,3 @@ export abstract class ConfigBind {
  * Kinds of ConfigBinds.
  */
 export type ConfigBindName = 'EnvironmentVariable';
-
-// The context interface
-export interface BindContext {
-  get<T>(sectionName: string, elementName: string): T | undefined;
-}

@@ -1,8 +1,8 @@
-import { BindContext } from './configBind';
 import { ConfigElement } from './configElement';
 import { ElementExistsException } from './errors';
 import { Logger } from './utilities/logger';
 import { sanitizeName } from './utilities/sanitizeNames';
+import { BindContext } from './bindContext';
 
 /**
  * A grouping of {@link ConfigElement ConfigElements}

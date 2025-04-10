@@ -2,7 +2,7 @@ import Joi from 'joi';
 import { ConfigInvalidException, ConfigUnsetException } from './errors';
 import { Logger } from './utilities/logger';
 import { sanitizeName } from './utilities/sanitizeNames';
-import { BindContext } from './configBind';
+import { BindContext } from './bindContext';
 
 /**
  * A ConfigElement is a single configuration option
