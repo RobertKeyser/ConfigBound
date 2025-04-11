@@ -44,6 +44,7 @@ This project uses Git hooks to ensure code quality. The hooks will automatically
 - Lint your code using ESLint
 
 ### How it works
+
 Config-bound uses [Husky](https://typicode.github.io/husky/) to manage Git hooks and lint-staged to run checks only on changed files. When you commit changes:
 
 - The pre-commit hook will run automatically
