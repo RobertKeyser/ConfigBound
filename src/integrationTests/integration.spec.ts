@@ -9,7 +9,7 @@ let config: ConfigBound;
 /**
  * @group integration
  */
-describe('configBindExample', () => {
+describe('envVarBindIntegration', () => {
   beforeEach(() => {
     // Set environment variables first
     process.env.MY_APP_SERVER_PORT = '8081';
