@@ -1,4 +1,4 @@
-import { InvalidNameException } from '../errors';
+import { InvalidNameException } from './errors';
 
 /**
  * A regex for validating configuration component names

@@ -1,8 +1,8 @@
 import Joi from 'joi';
 import { ConfigBound } from '../configBound';
-import { ConfigElement } from '../configElement';
-import { ConfigSection } from '../configSection';
-import { EnvVarBind } from '../configBinds/envVar';
+import { Element } from '../elements/element';
+import { Section } from '../sections/section';
+import { EnvVarBind } from '../binds/envVar';
 
 let config: ConfigBound;
 
@@ -16,7 +16,7 @@ describe('envVarBindIntegration', () => {
     process.env.MY_APP_API_APIKEY = 'abc123';
 
     // Create config elements
-    const serverPortElement = new ConfigElement<number>(
+    const serverPortElement = new Element<number>(
       'port',
       'The port for the server to listen on',
       3000, // default
@@ -25,7 +25,7 @@ describe('envVarBindIntegration', () => {
       Joi.number().port().required()
     );
 
-    const apiKeyElement = new ConfigElement<string>(
+    const apiKeyElement = new Element<string>(
       'apiKey',
       'API key for external service',
       undefined, // no default
@@ -35,13 +35,13 @@ describe('envVarBindIntegration', () => {
     );
 
     // Create a section
-    const serverSection = new ConfigSection(
+    const serverSection = new Section(
       'server',
       [serverPortElement],
       'Server configuration settings'
     );
 
-    const apiSection = new ConfigSection(
+    const apiSection = new Section(
       'api',
       [apiKeyElement],
       'API configuration settings'
@@ -54,8 +54,8 @@ describe('envVarBindIntegration', () => {
     config = new ConfigBound('my-app', [envVarBind], []);
 
     // Add sections after creating the config bound
-    config.addConfigSection(serverSection);
-    config.addConfigSection(apiSection);
+    config.addSection(serverSection);
+    config.addSection(apiSection);
   });
 
   afterEach(() => {

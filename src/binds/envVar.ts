@@ -1,9 +1,9 @@
-import { ConfigBind } from '../configBind';
+import { Bind } from './bind';
 
 /**
- * A ConfigBind that retrieves the value of an environment variable.
+ * A Bind that retrieves the value of an environment variable.
  */
-export class EnvVarBind extends ConfigBind {
+export class EnvVarBind extends Bind {
   envVarPrefix?: string;
 
   constructor(envVarPrefix?: string) {

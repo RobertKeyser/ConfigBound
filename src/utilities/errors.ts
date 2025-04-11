@@ -1,10 +1,10 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { ConfigElement } from './configElement';
+import { Element } from '../elements/element';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { ConfigSection } from './configSection';
+import { Section } from '../sections/section';
 
 /**
- * An abstract error class that occurs when a {@link ConfigElement ConfigElement} has an invalid value.
+ * An abstract error class that occurs when a {@link Element Element} has an invalid value.
  */
 export abstract class ConfigValueException extends Error {
   constructor(elementName: string, message?: string) {
@@ -20,7 +20,7 @@ export abstract class ConfigValueException extends Error {
 }
 
 /**
- * An error that occurs when a {@link ConfigElement ConfigElement} is unset.
+ * An error that occurs when a {@link Element Element} is unset.
  */
 export class ConfigUnsetException extends ConfigValueException {
   protected getBaseMessage(elementName: string): string {
@@ -29,7 +29,7 @@ export class ConfigUnsetException extends ConfigValueException {
 }
 
 /**
- * An error that occurs when a {@link ConfigElement ConfigElement} is invalid.
+ * An error that occurs when a {@link Element Element} is invalid.
  */
 export class ConfigInvalidException extends ConfigValueException {
   protected getBaseMessage(elementName: string): string {
@@ -52,7 +52,7 @@ export abstract class ItemExistsException extends Error {
 }
 
 /**
- * An error that occurs when a {@link ConfigSection ConfigSection} already exists.
+ * An error that occurs when a {@link Section Section} already exists.
  */
 export class SectionExistsException extends ItemExistsException {
   constructor(sectionName: string, additionalMessage?: string) {
@@ -62,7 +62,7 @@ export class SectionExistsException extends ItemExistsException {
 }
 
 /**
- * An error that occurs when a {@link ConfigElement ConfigElement} already exists.
+ * An error that occurs when a {@link Element Element} already exists.
  */
 export class ElementExistsException extends ItemExistsException {
   constructor(elementName: string, additionalMessage?: string) {
@@ -83,7 +83,7 @@ export class InvalidNameException extends Error {
 }
 
 /**
- * An error that occurs when a {@link ConfigSection ConfigSection} is not found.
+ * An error that occurs when a {@link Section Section} is not found.
  */
 export class SectionNotFoundException extends Error {
   constructor(sectionName: string) {
@@ -94,7 +94,7 @@ export class SectionNotFoundException extends Error {
 }
 
 /**
- * An error that occurs when a {@link ConfigElement ConfigElement} is not found.
+ * An error that occurs when a {@link Element Element} is not found.
  */
 export class ElementNotFoundException extends Error {
   constructor(elementName: string) {

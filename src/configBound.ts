@@ -1,54 +1,54 @@
-import { BindContext } from './bindContext';
-import { ConfigBind } from './configBind';
-import { ConfigSection } from './configSection';
+import { BindContext } from './binds/bindContext';
+import { Bind } from './binds/bind';
+import { Section } from './sections/section';
 import {
   ElementNotFoundException,
   SectionExistsException,
   SectionNotFoundException
-} from './errors';
+} from './utilities/errors';
 import { ConsoleLogger, Logger } from './utilities/logger';
 import { sanitizeName } from './utilities/sanitizeNames';
 
 /**
- * A ConfigBound is the top level object that contains all the {@link ConfigSection ConfigSections}
+ * A ConfigBound is the top level object that contains all the {@link Section Sections}
  */
 export class ConfigBound implements BindContext {
   readonly name: string;
   private logger: Logger;
-  readonly configBinds: ConfigBind[];
-  private sections: ConfigSection[];
+  readonly binds: Bind[];
+  private sections: Section[];
 
   constructor(
     name: string,
-    configBinds: ConfigBind[] = [],
-    sections: ConfigSection[] = [],
+    binds: Bind[] = [],
+    sections: Section[] = [],
     logger?: Logger
   ) {
     this.logger = logger ?? new ConsoleLogger();
     this.name = sanitizeName(name);
-    this.configBinds = configBinds;
+    this.binds = binds;
     this.sections = [];
 
     // Add sections after initialization so we can pass this as the bindContext
     if (sections.length > 0) {
-      sections.forEach((section) => this.addConfigSection(section));
+      sections.forEach((section) => this.addSection(section));
     }
   }
 
   /**
-   * Adds a ConfigBind to the ConfigBound
-   * @param configBind - The ConfigBind to add
+   * Adds a Bind to the ConfigBound
+   * @param bind - The Bind to add
    */
-  public addConfigBind(configBind: ConfigBind) {
-    this.logger.debug(`Adding config bind: ${configBind.name}`);
-    this.configBinds.push(configBind);
+  public addBind(bind: Bind) {
+    this.logger.debug(`Adding config bind: ${bind.name}`);
+    this.binds.push(bind);
   }
 
   /**
-   * Adds a ConfigSection to the ConfigBound
-   * @param section - The ConfigSection to add
+   * Adds a Section to the ConfigBound
+   * @param section - The Section to add
    */
-  public addConfigSection(section: ConfigSection) {
+  public addSection(section: Section) {
     this.logger.debug(`Adding config section: ${section.name}`);
     const sanitizedName = sanitizeName(section.name);
     if (this.sections.some((x) => x.name === sanitizedName)) {
@@ -64,15 +64,15 @@ export class ConfigBound implements BindContext {
   }
 
   /**
-   * Gets the ConfigSections of the ConfigBound
-   * @returns The ConfigSections
+   * Gets the Sections of the ConfigBound
+   * @returns The Sections
    */
   public getSections() {
     return this.sections;
   }
 
   /**
-   * Gets the value of a ConfigElement using the first available ConfigBind
+   * Gets the value of a Element using the first available Bind
    * @param sectionName - The name of the section
    * @param elementName - The name of the element
    * @returns The value of the element
@@ -90,17 +90,17 @@ export class ConfigBound implements BindContext {
     if (!element) {
       throw new ElementNotFoundException(elementName);
     }
-    // Try to get value from each ConfigBind until one returns a value
-    for (const configBind of this.configBinds) {
-      const value = configBind.get<T>(sectionName, elementName);
+    // Try to get value from each Bind until one returns a value
+    for (const bind of this.binds) {
+      const value = bind.get<T>(sectionName, elementName);
       if (value !== undefined) {
         this.logger.trace?.(
-          `Found value for ${sectionName}.${elementName} in ${configBind.name}: ${element.sensitive ? '[MASKED]' : value}`
+          `Found value for ${sectionName}.${elementName} in ${bind.name}: ${element.sensitive ? '[MASKED]' : value}`
         );
         return value;
       } else {
         this.logger.trace?.(
-          `No value found for ${sectionName}.${elementName} in ${configBind.name}`
+          `No value found for ${sectionName}.${elementName} in ${bind.name}`
         );
       }
     }
@@ -119,7 +119,7 @@ export class ConfigBound implements BindContext {
   }
 
   /**
-   * Gets the value of a ConfigElement
+   * Gets the value of a Element
    * @param sectionName - The name of the section
    * @param elementName - The name of the element
    * @returns The value of the element or throws if not found

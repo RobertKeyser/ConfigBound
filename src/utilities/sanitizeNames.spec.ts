@@ -1,4 +1,4 @@
-import { InvalidNameException } from '../errors';
+import { InvalidNameException } from './errors';
 import { sanitizeName } from './sanitizeNames';
 
 /**
