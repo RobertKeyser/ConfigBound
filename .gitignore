@@ -20,3 +20,6 @@ npm-debug.log*
 
 # macOS settings file 
 .DS_Store
+
+# Husky
+.husky/_

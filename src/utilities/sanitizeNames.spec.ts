@@ -1,6 +1,9 @@
 import { InvalidNameException } from '../errors';
 import { sanitizeName } from './sanitizeNames';
 
+/**
+ * @group unit
+ */
 describe('SanitizeName', () => {
   it('should return value when formatted correctly.', () => {
     expect(sanitizeName('correctlyFormatted')).toBe('correctlyFormatted');

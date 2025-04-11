@@ -8,3 +8,4 @@ export const transform = {
 };
 export const extensionsToTreatAsEsm = ['.ts'];
 export const testPathIgnorePatterns = ['dist/'];
+export const runner = 'groups';

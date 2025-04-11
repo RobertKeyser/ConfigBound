@@ -1,6 +1,8 @@
 import Joi from 'joi';
 import { ConfigInvalidException, ConfigUnsetException } from './errors';
+import { Logger } from './utilities/logger';
 import { sanitizeName } from './utilities/sanitizeNames';
+import { BindContext } from './bindContext';
 
 /**
  * A ConfigElement is a single configuration option
@@ -34,6 +36,14 @@ export class ConfigElement<T> {
    * The value of the ConfigElement
    */
   value?: T;
+  /**
+   * The parent section name
+   */
+  private sectionName?: string;
+  /**
+   * Logger instance
+   */
+  private logger?: Logger;
 
   constructor(
     name: string,
@@ -41,11 +51,13 @@ export class ConfigElement<T> {
     defaultValue?: T,
     exampleValue?: T,
     sensitive: boolean = false,
-    validator: Joi.AnySchema<T> = Joi.any<T>()
+    validator: Joi.AnySchema<T> = Joi.any<T>(),
+    logger?: Logger
   ) {
     this.name = sanitizeName(name);
     this.description = description;
     this.validator = validator;
+    this.logger = logger;
 
     // Ensure the default value is valid
     if (defaultValue) {
@@ -60,8 +72,23 @@ export class ConfigElement<T> {
     this.sensitive = sensitive;
     this.default = defaultValue;
 
-    // Example values are not validated because they might use placeholder values that wouldn't validate
+    // Example values are not validated because they might use placeholder values that wouldn't validate.
     this.example = exampleValue;
+  }
+
+  /**
+   * Sets the parent section name
+   */
+  setParentSection(sectionName: string): void {
+    this.sectionName = sectionName;
+  }
+
+  /**
+   * Sets the logger instance
+   * @param logger - The logger to use
+   */
+  public setLogger(logger: Logger): void {
+    this.logger = logger;
   }
 
   /**
@@ -85,21 +112,60 @@ export class ConfigElement<T> {
 
   /**
    * Retrieves the value of the element
+   * @param bindContext - The context to use for retrieving values
    * @returns the value of the ConfigElement. If it's unset, then it returns undefined.
    */
-  get(): T | undefined {
-    return this.value;
+  get<R>(bindContext: BindContext): R | undefined {
+    // First check if we have a locally set value
+    if (this.value !== undefined) {
+      this.logger?.trace?.(
+        `Using locally set value for ${this.sectionName}.${this.name}: ${this.sensitive ? '[MASKED]' : this.value}`
+      );
+      return this.value as unknown as R;
+    }
+    // Otherwise try to get from the bind context
+    if (!this.sectionName) {
+      const error = new Error(
+        `${this.name} is not associated with any section`
+      );
+      this.logger?.error(`Error getting value: ${error.message}`);
+      throw error;
+    }
+    this.logger?.debug(
+      `Getting value for ${this.sectionName}.${this.name} from bind context`
+    );
+    // Use the bindContext to get the value
+    const contextValue = bindContext.get<R>(this.sectionName, this.name);
+    // If we got a value from context, return it
+    if (contextValue !== undefined) {
+      this.logger?.trace?.(
+        `Found value in context for ${this.sectionName}.${this.name}: ${this.sensitive ? '[MASKED]' : contextValue}`
+      );
+      return contextValue;
+    }
+    // If no value in context but we have a default, use that
+    if (this.default !== undefined) {
+      this.logger?.trace?.(
+        `Using default value for ${this.sectionName}.${this.name}: ${this.sensitive ? '[MASKED]' : this.default}`
+      );
+      return this.default as unknown as R;
+    }
+    // Otherwise return undefined
+    this.logger?.debug(`No value found for ${this.sectionName}.${this.name}`);
+    return undefined;
   }
 
   /**
    * Retrieves the value of the element or throws an error if the value isn't found.
+   * @param bindContext - The context to use for retrieving values
    * @throws {@link ConfigUnsetException ConfigUnsetException} if the value has not been set
    * @returns the value of the ConfigElement.
    */
-  getOrThrow(): T {
-    if (typeof this.value === 'undefined') {
+  getOrThrow<R>(bindContext: BindContext): R {
+    const value = this.get<R>(bindContext);
+    if (typeof value === 'undefined') {
       throw new ConfigUnsetException(this.name);
     }
-    return this.value;
+    return value;
   }
 }

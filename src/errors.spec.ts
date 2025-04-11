@@ -6,6 +6,9 @@ import {
   InvalidNameException
 } from './errors';
 
+/**
+ * @group unit
+ */
 describe('Error Classes', () => {
   describe('ConfigUnsetException', () => {
     test('should set name and message correctly', () => {
