@@ -1,9 +1,9 @@
 import { ConfigBound } from './configBound';
-import { Section } from './sections/section';
+import { Section } from './section/section';
 import { SectionExistsException } from './utilities/errors';
 
 // Mock the Section class
-jest.mock('./sections/section', () => {
+jest.mock('./section/section', () => {
   return {
     // eslint-disable-next-line @typescript-eslint/naming-convention
     Section: jest.fn().mockImplementation((name) => {

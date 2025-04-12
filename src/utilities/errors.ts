@@ -1,7 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Element } from '../elements/element';
+import { Element } from '../element/element';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Section } from '../sections/section';
+import { Section } from '../section/section';
 
 /**
  * An abstract error class that occurs when a {@link Element Element} has an invalid value.

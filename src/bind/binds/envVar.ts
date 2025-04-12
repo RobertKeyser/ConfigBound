@@ -1,4 +1,4 @@
-import { Bind } from './bind';
+import { Bind } from '../bind';
 
 /**
  * A Bind that retrieves the value of an environment variable.

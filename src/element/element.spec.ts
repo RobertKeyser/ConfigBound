@@ -5,8 +5,8 @@ import {
   ConfigUnsetException
 } from '../utilities/errors';
 import { ConfigBound } from '../configBound';
-import { Section } from '../sections/section';
-import { EnvVarBind } from '../binds/envVar';
+import { Section } from '../section/section';
+import { EnvVarBind } from '../bind/binds/envVar';
 
 /**
  * @group unit

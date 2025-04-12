@@ -5,7 +5,7 @@ import {
 } from '../utilities/errors';
 import { Logger } from '../utilities/logger';
 import { sanitizeName } from '../utilities/sanitizeNames';
-import { BindContext } from '../binds/bindContext';
+import { BindContext } from '../bind/bindContext';
 
 /**
  * A Element is a single configuration option

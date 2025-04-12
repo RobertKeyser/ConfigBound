@@ -1,6 +1,6 @@
-import { BindContext } from './binds/bindContext';
-import { Bind } from './binds/bind';
-import { Section } from './sections/section';
+import { BindContext } from './bind/bindContext';
+import { Bind } from './bind/bind';
+import { Section } from './section/section';
 import {
   ElementNotFoundException,
   SectionExistsException,

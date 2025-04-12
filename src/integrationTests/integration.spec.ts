@@ -1,8 +1,8 @@
 import Joi from 'joi';
 import { ConfigBound } from '../configBound';
-import { Element } from '../elements/element';
-import { Section } from '../sections/section';
-import { EnvVarBind } from '../binds/envVar';
+import { Element } from '../element/element';
+import { Section } from '../section/section';
+import { EnvVarBind } from '../bind/binds/envVar';
 
 let config: ConfigBound;
 

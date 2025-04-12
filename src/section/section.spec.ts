@@ -1,5 +1,5 @@
 import { Section } from './section';
-import { Element } from '../elements/element';
+import { Element } from '../element/element';
 import { ElementExistsException } from '../utilities/errors';
 
 /**
