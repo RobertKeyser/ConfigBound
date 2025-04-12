@@ -1,18 +1,18 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { ConfigElement } from './configElement';
+import { Element } from '../elements/element';
 
 /**
- * A ConfigBind is the retrieves the values of the {@link ConfigElement ConfigElements} from their source.
+ * A Bind is the retrieves the values of the {@link Element   } from their source.
  */
-export abstract class ConfigBind {
-  readonly name: ConfigBindName;
+export abstract class Bind {
+  readonly name: BindName;
 
-  constructor(name: ConfigBindName) {
+  constructor(name: BindName) {
     this.name = name;
   }
 
   /**
-   * Retrieves the value of the ConfigBind.
+   * Retrieves the value of the Bind.
    */
   abstract retrieve<T>(elementName: string): T | undefined;
 
@@ -25,6 +25,6 @@ export abstract class ConfigBind {
 }
 
 /**
- * Kinds of ConfigBinds.
+ * Kinds of Binds.
  */
-export type ConfigBindName = 'EnvironmentVariable';
+export type BindName = 'EnvironmentVariable';

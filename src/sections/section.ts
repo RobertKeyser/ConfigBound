@@ -1,25 +1,25 @@
-import { ConfigElement } from './configElement';
-import { ElementExistsException } from './errors';
-import { Logger } from './utilities/logger';
-import { sanitizeName } from './utilities/sanitizeNames';
-import { BindContext } from './bindContext';
+import { Element } from '../elements/element';
+import { ElementExistsException } from '../utilities/errors';
+import { Logger } from '../utilities/logger';
+import { sanitizeName } from '../utilities/sanitizeNames';
+import { BindContext } from '../binds/bindContext';
 
 /**
- * A grouping of {@link ConfigElement ConfigElements}
+ * A grouping of {@link Element Elements}
  */
-export class ConfigSection {
+export class Section {
   /**
-   * The name of the ConfigSection
+   * The name of the Section
    */
   name: string;
   /**
-   * An optional description of the ConfigSection
+   * An optional description of the Section
    */
   description?: string;
   /**
-   * The {@link ConfigElement ConfigElements} of the ConfigSection
+   * The {@link Element Elements} of the Section
    */
-  private elements: ConfigElement<unknown>[];
+  private elements: Element<unknown>[];
   /**
    * Logger instance
    */
@@ -31,7 +31,7 @@ export class ConfigSection {
 
   constructor(
     name: string,
-    elements: ConfigElement<unknown>[],
+    elements: Element<unknown>[],
     description?: string,
     logger?: Logger,
     bindContext?: BindContext
@@ -48,13 +48,13 @@ export class ConfigSection {
   }
 
   /**
-   * Finds duplicate {@link ConfigElement ConfigElements} in a given array.
-   * @param elements - The array of ConfigElements to search
-   * @returns An array of ConfigElements that have duplicate names
+   * Finds duplicate {@link Element Elements} in a given array.
+   * @param elements - The array of Elements to search
+   * @returns An array of Elements that have duplicate names
    */
   public static findDuplicateElements(
-    elements: ConfigElement<unknown>[]
-  ): ConfigElement<unknown>[] {
+    elements: Element<unknown>[]
+  ): Element<unknown>[] {
     // Count occurrences of each name
     const nameCounts = elements.reduce(
       (acc, element) => {
@@ -74,11 +74,11 @@ export class ConfigSection {
   }
 
   /**
-   * Sets the {@link ConfigElement ConfigElements} of the ConfigSection
-   * @param elements - The array of ConfigElements to set
+   * Sets the {@link Element Elements} of the Section
+   * @param elements - The array of Elements to set
    */
-  public setElements(elements: ConfigElement<unknown>[]) {
-    const duplicateElements = ConfigSection.findDuplicateElements(elements);
+  public setElements(elements: Element<unknown>[]) {
+    const duplicateElements = Section.findDuplicateElements(elements);
     if (duplicateElements.length > 0) {
       throw new ElementExistsException(duplicateElements[0].name);
     }
@@ -118,15 +118,15 @@ export class ConfigSection {
   }
 
   /**
-   * Adds a {@link ConfigElement ConfigElement} to the ConfigSection
-   * @param element - The ConfigElement to add
+   * Adds a {@link Element Element} to the Section
+   * @param element - The Element to add
    */
-  public addElement(element: ConfigElement<unknown>) {
+  public addElement(element: Element<unknown>) {
     // Create a new array with all current elements plus the new one
     const newElements = this.elements.concat([element]);
 
     // Check for duplicates
-    const duplicateElements = ConfigSection.findDuplicateElements(newElements);
+    const duplicateElements = Section.findDuplicateElements(newElements);
     if (duplicateElements.length > 0) {
       throw new ElementExistsException(duplicateElements[0].name);
     }
@@ -144,8 +144,8 @@ export class ConfigSection {
   }
 
   /**
-   * Gets the {@link ConfigElement ConfigElements} of the ConfigSection
-   * @returns The array of ConfigElements
+   * Gets the {@link Element Elements} of the Section
+   * @returns The array of Elements
    */
   public getElements() {
     return this.elements;
@@ -156,7 +156,7 @@ export class ConfigSection {
    * @param elementName - The name of the element to get
    * @returns The element or undefined if not found
    */
-  public getElement(elementName: string): ConfigElement<unknown> | undefined {
+  public getElement(elementName: string): Element<unknown> | undefined {
     return this.elements.find((element) => element.name === elementName);
   }
 

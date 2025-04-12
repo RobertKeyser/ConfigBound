@@ -1,20 +1,20 @@
 import Joi from 'joi';
-import { ConfigBound } from './configBound';
-import { ConfigElement } from './configElement';
-import { ConfigSection } from './configSection';
-import { EnvVarBind } from './configBinds/envVar';
+import { ConfigBound } from '../configBound';
+import { Element } from '../elements/element';
+import { Section } from '../sections/section';
+import { EnvVarBind } from './envVar';
 
 /**
  * @group integration
  */
 describe('BindContext functionality', () => {
   let configBound: ConfigBound;
-  let serverSection: ConfigSection;
-  let databaseSection: ConfigSection;
-  let portElement: ConfigElement<number>;
-  let hostElement: ConfigElement<string>;
-  let dbHostElement: ConfigElement<string>;
-  let dbPortElement: ConfigElement<number>;
+  let serverSection: Section;
+  let databaseSection: Section;
+  let portElement: Element<number>;
+  let hostElement: Element<string>;
+  let dbHostElement: Element<string>;
+  let dbPortElement: Element<number>;
 
   beforeEach(() => {
     // Set environment variables before creating any objects
@@ -22,7 +22,7 @@ describe('BindContext functionality', () => {
     process.env.TEST_APP_DATABASE_HOST = 'test-db.example.com';
 
     // Create config elements for server
-    portElement = new ConfigElement<number>(
+    portElement = new Element<number>(
       'port',
       'The port for the server to listen on',
       3000, // default
@@ -31,7 +31,7 @@ describe('BindContext functionality', () => {
       Joi.number().port().required()
     );
 
-    hostElement = new ConfigElement<string>(
+    hostElement = new Element<string>(
       'host',
       'The host for the server',
       'localhost', // default
@@ -41,7 +41,7 @@ describe('BindContext functionality', () => {
     );
 
     // Create config elements for database
-    dbHostElement = new ConfigElement<string>(
+    dbHostElement = new Element<string>(
       'host',
       'The database host',
       'localhost', // default
@@ -50,7 +50,7 @@ describe('BindContext functionality', () => {
       Joi.string().required()
     );
 
-    dbPortElement = new ConfigElement<number>(
+    dbPortElement = new Element<number>(
       'port',
       'The database port',
       5432, // default
@@ -60,13 +60,13 @@ describe('BindContext functionality', () => {
     );
 
     // Create sections
-    serverSection = new ConfigSection(
+    serverSection = new Section(
       'server',
       [portElement, hostElement],
       'Server configuration settings'
     );
 
-    databaseSection = new ConfigSection(
+    databaseSection = new Section(
       'database',
       [dbHostElement, dbPortElement],
       'Database configuration settings'
@@ -79,8 +79,8 @@ describe('BindContext functionality', () => {
     configBound = new ConfigBound('my-app', [envVarBind], []);
 
     // Add sections to the configBound
-    configBound.addConfigSection(serverSection);
-    configBound.addConfigSection(databaseSection);
+    configBound.addSection(serverSection);
+    configBound.addSection(databaseSection);
   });
 
   afterEach(() => {

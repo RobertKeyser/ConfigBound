@@ -1,39 +1,42 @@
 import Joi from 'joi';
-import { ConfigInvalidException, ConfigUnsetException } from './errors';
-import { Logger } from './utilities/logger';
-import { sanitizeName } from './utilities/sanitizeNames';
-import { BindContext } from './bindContext';
+import {
+  ConfigInvalidException,
+  ConfigUnsetException
+} from '../utilities/errors';
+import { Logger } from '../utilities/logger';
+import { sanitizeName } from '../utilities/sanitizeNames';
+import { BindContext } from '../binds/bindContext';
 
 /**
- * A ConfigElement is a single configuration option
+ * A Element is a single configuration option
  */
-export class ConfigElement<T> {
+export class Element<T> {
   /**
-   * The name of the ConfigElement
+   * The name of the Element
    */
   readonly name: string;
   /**
-   * Whether the ConfigElement is sensitive
+   * Whether the Element is sensitive
    */
   sensitive: boolean;
   /**
-   * An optional description of the ConfigElement
+   * An optional description of the Element
    */
   description?: string;
   /**
-   * The default value of the ConfigElement
+   * The default value of the Element
    */
   default?: T;
   /**
-   * An example value of the ConfigElement
+   * An example value of the Element
    */
   example?: T;
   /**
-   * The Joi validator of the ConfigElement
+   * The Joi validator of the Element
    */
   validator: Joi.AnySchema<T>;
   /**
-   * The value of the ConfigElement
+   * The value of the Element
    */
   value?: T;
   /**
@@ -92,14 +95,14 @@ export class ConfigElement<T> {
   }
 
   /**
-   * Returns true if the ConfigElement is required
+   * Returns true if the Element is required
    */
   isRequired(): boolean {
     return this.validator._flags.presence === 'required';
   }
 
   /**
-   * Set the value of ConfigElement
+   * Set the value of Element
    * @param value - The value of the element
    */
   set(value?: T): void {
@@ -113,7 +116,7 @@ export class ConfigElement<T> {
   /**
    * Retrieves the value of the element
    * @param bindContext - The context to use for retrieving values
-   * @returns the value of the ConfigElement. If it's unset, then it returns undefined.
+   * @returns the value of the Element. If it's unset, then it returns undefined.
    */
   get<R>(bindContext: BindContext): R | undefined {
     // First check if we have a locally set value
@@ -159,7 +162,7 @@ export class ConfigElement<T> {
    * Retrieves the value of the element or throws an error if the value isn't found.
    * @param bindContext - The context to use for retrieving values
    * @throws {@link ConfigUnsetException ConfigUnsetException} if the value has not been set
-   * @returns the value of the ConfigElement.
+   * @returns the value of the Element.
    */
   getOrThrow<R>(bindContext: BindContext): R {
     const value = this.get<R>(bindContext);
