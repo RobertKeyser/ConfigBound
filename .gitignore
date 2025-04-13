@@ -3,6 +3,11 @@ node_modules
 
 # Builds
 /dist
+build/
+
+# Generated files
+.docusaurus
+.cache-loader
 
 # Coverage directory used by testing tools
 coverage
@@ -10,12 +15,13 @@ coverage
 # npm debug logs
 npm-debug.log*
 
+
 # Turbo build cache
 .turbo
 
 # General #
 
-# Visual Studio Code configuration
+# VS Code configuration
 .vscode/
 
 # macOS settings file 
@@ -23,3 +29,11 @@ npm-debug.log*
 
 # Husky
 .husky/_
+
+# Dependencies
+/node_modules
+
+# Environment variables
+.env
+.env.*
+!.env.example
