@@ -16,5 +16,5 @@
     "noFallthroughCasesInSwitch": true,
     "types": ["jest", "node"]
   },
-  "include": ["src/**/*.ts"]
+  "include": ["src/**/*.ts", "docs/docs/sidebars.ts"]
 }

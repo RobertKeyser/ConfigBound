@@ -5,7 +5,7 @@ import js from '@eslint/js';
 import tseslint from 'typescript-eslint';
 import eslintConfigPrettier from 'eslint-config-prettier/flat';
 import pluginJest from 'eslint-plugin-jest';
-import turbo from "eslint-plugin-turbo";
+import turbo from 'eslint-plugin-turbo';
 
 export default defineConfig([
   {
@@ -47,13 +47,13 @@ export default defineConfig([
   },
   {
     plugins: {
-      turbo,
+      turbo
     },
     files: ['**/*.{js,mjs,cjs,ts}'],
     ignores: ['**/*.spec.{js,ts}', '**/*.test.{js,ts}'],
     rules: {
-      "turbo/no-undeclared-env-vars": "warn",
-    },
+      'turbo/no-undeclared-env-vars': 'warn'
+    }
   },
   tseslint.configs.recommended,
   {

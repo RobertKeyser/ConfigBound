@@ -4,6 +4,12 @@
     "build": {
       "outputs": ["dist/**"]
     },
+    "start:dev": {
+      "dependsOn": ["^build"],
+      "outputs": ["docs/build/**"],
+      "cache": true,
+      "persistent": true
+    },
     "test": {},
     "test:coverage": {
       "outputs": ["coverage/**"]

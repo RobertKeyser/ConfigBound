@@ -1,51 +1,76 @@
-import {themes as prismThemes} from 'prism-react-renderer';
-import type {Config} from '@docusaurus/types';
+import { themes as prismThemes } from 'prism-react-renderer';
+import type { Config } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
 
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
 const config: Config = {
   title: 'Config-bound',
-  tagline: 'Config-bound is a configuration management tool for your applications.',
+  tagline:
+    'Config-bound is a configuration management tool for your applications.',
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
+  // TODO: Replace with the actual URL
   url: 'https://your-docusaurus-site.example.com', // TODO: Replace with the actual URL
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: '/',
 
   // GitHub pages deployment config.
-  // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'RobertKeyser', // Usually your GitHub org/user name.
-  projectName: 'ConfigBound', // Usually your repo name.
+  organizationName: 'RobertKeyser',
+  projectName: 'ConfigBound',
 
-  onBrokenLinks: 'throw',
+  onBrokenLinks: 'warn',
   onBrokenMarkdownLinks: 'warn',
 
   i18n: {
     defaultLocale: 'en',
-    locales: ['en'],
+    locales: ['en']
   },
 
   presets: [
     [
-      'classic',
+      '@docusaurus/preset-classic',
       {
         docs: {
-          sidebarPath: './sidebars.ts',
-          editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
-          include: [
-            '**/*.{md,mdx}',  // Include all md/mdx files in the docs directory
-            '../src/**/*.mdx',  // MDX files in main project
-          ],
-        },
-        theme: {
-          customCss: './src/css/custom.css',
-        },
-      } satisfies Preset.Options,
+          path: 'docs',
+          routeBasePath: 'docs',
+          sidebarPath: require.resolve('./sidebars/project.ts')
+        }
+      }
+    ]
+  ],
+  plugins: [
+    [
+      '@docusaurus/plugin-content-docs',
+      {
+        id: 'project-docs',
+        path: '../src',
+        routeBasePath: 'project',
+        include: ['**/*.mdx', '**/*.md'],
+        includeCurrentVersion: true,
+        rehypePlugins: [rehypeKatex],
+        remarkPlugins: [remarkMath],
+        sidebarPath: require.resolve('./sidebars/project.ts'),
+      },
     ],
+    [
+      'docusaurus-plugin-typedoc',
+      {
+        id: 'sdk-docs',
+        entryPoints: ['../src/**/*.{js,ts}', '../src/*.{js,ts}'],
+        entryPointStrategy: 'expand',
+        exclude: ['**/*.spec.{ts,js}'],
+        basePath: 'sdk',
+        out: 'sdk',
+        sidebarPath: require.resolve('./sidebars/project.ts'),
+        tsconfig: '../tsconfig.json',
+        watch: process.env.TYPEDOC_WATCH,
+        }
+      ]
   ],
   themeConfig: {
     // Replace with your project's social card
@@ -54,21 +79,31 @@ const config: Config = {
       title: 'Config-bound',
       logo: {
         alt: 'Config-bound Logo',
-        src: 'img/logo.svg',
+        src: 'img/logo.svg'
       },
       items: [
         {
           type: 'docSidebar',
-          sidebarId: 'tutorialSidebar',
+          sidebarId: 'projectSidebar',
           position: 'left',
-          label: 'Tutorial',
+          label: 'Docs',
+        },
+        {
+          to: '/project',
+          position: 'left',
+          label: 'Project',
+        },
+        {
+          to: '/sdk',
+          position: 'left',
+          label: 'SDK',
         },
         {
           href: 'https://github.com/RobertKeyser/ConfigBound',
           label: 'GitHub',
-          position: 'right',
-        },
-      ],
+          position: 'right'
+        }
+      ]
     },
     footer: {
       style: 'dark',
@@ -77,37 +112,37 @@ const config: Config = {
           title: 'Docs',
           items: [
             {
-              label: 'Tutorial',
-              to: '/docs/intro',
-            },
-          ],
+              label: 'Docs',
+              to: '/docs/intro'
+            }
+          ]
         },
         {
           title: 'Community',
           items: [
             {
               label: 'Stack Overflow',
-              href: 'https://stackoverflow.com/questions/tagged/docusaurus',
-            },
-          ],
+              href: 'https://stackoverflow.com/questions/tagged/docusaurus'
+            }
+          ]
         },
         {
           title: 'More',
           items: [
             {
               label: 'GitHub',
-              href: 'https://github.com/RobertKeyser/ConfigBound',
-            },
-          ],
-        },
+              href: 'https://github.com/RobertKeyser/ConfigBound'
+            }
+          ]
+        }
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} Robert Keyser.`,
+      copyright: `Copyright © ${new Date().getFullYear()} Robert Keyser.`
     },
     prism: {
       theme: prismThemes.github,
-      darkTheme: prismThemes.dracula,
-    },
-  } satisfies Preset.ThemeConfig,
+      darkTheme: prismThemes.dracula
+    }
+  } satisfies Preset.ThemeConfig
 };
 
 export default config;
