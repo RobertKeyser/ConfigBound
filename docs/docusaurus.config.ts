@@ -1,10 +1,8 @@
 import { themes as prismThemes } from 'prism-react-renderer';
 import type { Config } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
-import remarkMath from 'remark-math';
-import rehypeKatex from 'rehype-katex';
-
-// This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
+// import remarkMath from 'remark-math';
+// import rehypeKatex from 'rehype-katex';
 
 const config: Config = {
   title: 'Config-bound',
@@ -38,40 +36,12 @@ const config: Config = {
         docs: {
           path: 'docs',
           routeBasePath: 'docs',
-          sidebarPath: require.resolve('./sidebars/project.ts')
+          sidebarPath: require.resolve('./src/sidebar.ts')
         }
       }
     ]
   ],
-  plugins: [
-    [
-      '@docusaurus/plugin-content-docs',
-      {
-        id: 'project-docs',
-        path: '../src',
-        routeBasePath: 'project',
-        include: ['**/*.mdx', '**/*.md'],
-        includeCurrentVersion: true,
-        rehypePlugins: [rehypeKatex],
-        remarkPlugins: [remarkMath],
-        sidebarPath: require.resolve('./sidebars/project.ts'),
-      },
-    ],
-    [
-      'docusaurus-plugin-typedoc',
-      {
-        id: 'sdk-docs',
-        entryPoints: ['../src/**/*.{js,ts}', '../src/*.{js,ts}'],
-        entryPointStrategy: 'expand',
-        exclude: ['**/*.spec.{ts,js}'],
-        basePath: 'sdk',
-        out: 'sdk',
-        sidebarPath: require.resolve('./sidebars/project.ts'),
-        tsconfig: '../tsconfig.json',
-        watch: process.env.TYPEDOC_WATCH,
-        }
-      ]
-  ],
+  plugins: [],
   themeConfig: {
     // Replace with your project's social card
     image: 'img/docusaurus-social-card.jpg',
@@ -88,16 +58,16 @@ const config: Config = {
           position: 'left',
           label: 'Docs',
         },
-        {
-          to: '/project',
-          position: 'left',
-          label: 'Project',
-        },
-        {
-          to: '/sdk',
-          position: 'left',
-          label: 'SDK',
-        },
+        // {
+        //   to: '/project',
+        //   position: 'left',
+        //   label: 'Project',
+        // },
+        // {
+        //   to: '/sdk',
+        //   position: 'left',
+        //   label: 'SDK',
+        // },
         {
           href: 'https://github.com/RobertKeyser/ConfigBound',
           label: 'GitHub',

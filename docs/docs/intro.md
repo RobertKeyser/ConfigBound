@@ -15,4 +15,4 @@ Config-bound is a configuration management tool for your applications. This docu
 
 ## Getting Started
 
-To get started with Config-bound, please refer to the [SDK documentation](/docs/sdk) for detailed information on the available classes and functions. 
+To get started with Config-bound, please refer to the [SDK documentation](/docs/sdk) for detailed information on the available classes and functions.
