@@ -21,6 +21,9 @@
     "docs:serve": "turbo docs:serve",
     "prepare": "husky"
   },
+  "exports": {
+    ".": "./src/configBound.ts"
+  },
   "author": "Robert Keyser",
   "license": "MIT",
   "description": "A config registration library",

@@ -41,7 +41,27 @@ const config: Config = {
       }
     ]
   ],
-  plugins: [],
+  plugins: [
+    [
+      'docusaurus-plugin-typedoc',
+      {
+        id: 'sdk-docs',
+        entryPoints: ['../src', '../src/**'],
+        entryPointStrategy: 'expand',
+        exclude: ['**/*.spec.{ts,js}'],
+        basePath: '../docs',
+        out: '../docs/docs/sdk',
+        tsconfig: '../tsconfig.json',
+        watch: process.env.TYPEDOC_WATCH,
+        sidebar: {
+          autoConfiguration: true,
+          pretty: false,
+          typescript: true,
+          deprecatedItemClassName: 'typedoc-sidebar-item-deprecated',
+        }
+        }
+      ]
+  ],
   themeConfig: {
     // Replace with your project's social card
     image: 'img/docusaurus-social-card.jpg',
@@ -58,16 +78,12 @@ const config: Config = {
           position: 'left',
           label: 'Docs',
         },
-        // {
-        //   to: '/project',
-        //   position: 'left',
-        //   label: 'Project',
-        // },
-        // {
-        //   to: '/sdk',
-        //   position: 'left',
-        //   label: 'SDK',
-        // },
+        {
+          to: 'docs/sdk',
+          position: 'left',
+          sidebarId: 'sdkSidebar',
+          label: 'SDK',
+        },
         {
           href: 'https://github.com/RobertKeyser/ConfigBound',
           label: 'GitHub',
