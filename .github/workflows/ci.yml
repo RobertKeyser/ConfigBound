@@ -39,3 +39,11 @@ jobs:
       - name: Run Unit Tests
         id: test
         run: npx turbo test
+  documentation-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - uses: DavidAnson/markdownlint-cli2-action@v19
+        with:
+          globs: '**/*.md'

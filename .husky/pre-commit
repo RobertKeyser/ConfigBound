@@ -1,1 +1,13 @@
-npx turbo format && npx turbo lint
+#!/usr/bin/env bash
+
+set -e  # Exit on any error
+
+echo "🔍 Running pre-commit hooks..."
+
+echo "📝 Formatting..."
+npx turbo format
+
+echo "🔎 Linting..."
+npx turbo lint
+
+echo "✅ Pre-commit hooks completed successfully!"

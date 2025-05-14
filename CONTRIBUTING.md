@@ -31,7 +31,7 @@ There are three variants of the npm test script:
 
 Targeting a specific group of tests:
 
-```
+```bash
 npm run test -- --group=unit
 npm run test -- --group=integration
 ```
@@ -51,7 +51,7 @@ Config-bound uses [Husky](https://typicode.github.io/husky/) to manage Git hooks
 - Your staged files will be formatted and linted
 - If there are any errors that can't be fixed automatically, the commit will fail
 
-### Getting Started
+### Installing hooks
 
 The hooks should install automatically when you run `npm install`. If you need to install them manually: `npm run prepare`
 
