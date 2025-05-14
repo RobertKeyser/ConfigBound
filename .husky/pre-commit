@@ -2,8 +2,14 @@
 
 set -e  # Exit on any error
 
-echo "🔍 Running pre-commit hooks..."
+echo "⚙️ Running pre-commit hooks..."
 
+echo "🔒 Checking package-lock.json..."
+npm list --depth=0 >/dev/null 2>&1 || {
+  echo "❌ package-lock.json is out of sync with package.json"
+  echo "   Run 'npm install' to update it"
+  exit 1
+}
 echo "📝 Formatting..."
 npx turbo format
 
