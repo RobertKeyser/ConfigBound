@@ -2,20 +2,13 @@
 node_modules
 
 # Builds
-/dist
-build/
-
-# Generated files
-.docusaurus
-.cache-loader
-docs/docs/src
+**/dist
 
 # Coverage directory used by testing tools
 coverage
 
 # npm debug logs
 npm-debug.log*
-
 
 # Turbo build cache
 .turbo

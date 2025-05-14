@@ -3,9 +3,6 @@
   "version": "0.0.1",
   "type": "module",
   "packageManager": "npm@10.5.0",
-  "workspaces": [
-    "docs"
-  ],
   "scripts": {
     "format": "prettier . --write",
     "format:ci": "prettier . --check",
@@ -15,10 +12,6 @@
     "lint": "eslint . --fix",
     "lint:ci": "eslint .",
     "build": "tsc",
-    "start:docs": "turbo start:dev",
-    "docs:build": "turbo docs:build",
-    "docs:dev": "turbo docs:dev",
-    "docs:serve": "turbo docs:serve",
     "prepare": "husky"
   },
   "exports": {
@@ -28,7 +21,6 @@
   "license": "MIT",
   "description": "A config registration library",
   "devDependencies": {
-    "@docusaurus/eslint-plugin": "^3.7.0",
     "@eslint/js": "^9.26.0",
     "@types/jest": "^29.5.14",
     "@typescript-eslint/eslint-plugin": "^8.31.1",
@@ -40,10 +32,6 @@
     "husky": "^9.1.7",
     "jest-runner-groups": "^2.2.0",
     "prettier": "3.5.3",
-    "remark-cli": "^12.0.1",
-    "remark-lint-list-item-indent": "^4.0.1",
-    "remark-preset-lint-consistent": "^6.0.1",
-    "remark-preset-lint-recommended": "^7.0.1",
     "ts-jest": "^29.3.2",
     "turbo": "^2.5.2",
     "typescript": "^5.8.3",

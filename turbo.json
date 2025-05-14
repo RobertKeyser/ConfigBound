@@ -2,43 +2,37 @@
   "$schema": "https://turbo.build/schema.json",
   "tasks": {
     "build": {
+      "dependsOn": ["^build"],
       "outputs": ["dist/**"]
     },
-    "start:dev": {
-      "dependsOn": ["^build"],
-      "outputs": ["docs/build/**"],
-      "cache": true,
-      "persistent": true
-    },
-    "test": {},
-    "test:coverage": {
-      "outputs": ["coverage/**"]
-    },
-    "test:watch": {
-      "cache": false,
-      "persistent": true
-    },
     "lint": {
-      "cache": false,
-      "dependsOn": ["format"]
+      "outputs": []
     },
-    "lint:ci": {},
+    "lint:ci": {
+      "outputs": []
+    },
     "format": {
-      "cache": false
+      "outputs": []
     },
-    "format:ci": {},
-    "docs:build": {
-      "dependsOn": ["^build"],
-      "outputs": ["docs/build/**"],
-      "cache": true
+    "format:ci": {
+      "outputs": []
     },
-    "docs:dev": {
+    "test": {
+      "dependsOn": ["build"],
+      "inputs": ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx", "**/*.spec.ts"],
+      "outputs": []
+    },
+    "test:dev": {
+      "dependsOn": ["build"],
+      "inputs": ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx", "**/*.spec.ts"],
+      "outputs": [],
       "cache": false,
       "persistent": true
     },
-    "docs:serve": {
-      "dependsOn": ["docs:build"],
-      "cache": false
+    "test:coverage": {
+      "dependsOn": ["build"],
+      "inputs": ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx", "**/*.spec.ts"],
+      "outputs": ["coverage/**"]
     }
   }
 }

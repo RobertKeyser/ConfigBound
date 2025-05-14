@@ -1,9 +1,3 @@
----
-title: ConfigBound
-description: ConfigBound documentation.
-sidebar_position: 1
----
-
 # ConfigBound
 
 ConfigBound is the top level object that contains all sections and binds.

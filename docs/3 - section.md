@@ -1,8 +1,3 @@
----
-title: Section
-description: Section documentation.
----
-
 # Section
 
 A Section is a collection of elements that are related to each other.

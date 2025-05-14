@@ -77,6 +77,10 @@ Note: Please avoid skipping hooks unless absolutely necessary.
 - Update documentation as needed
 - Annotate relevant code using [TSDoc](https://tsdoc.org)
 
+## Documentation
+
+Documentation is in the [/docs](./docs) directory. Make sure to keep it up to date with your latest changes.
+
 ## Questions?
 
 Feel free to open an issue.
