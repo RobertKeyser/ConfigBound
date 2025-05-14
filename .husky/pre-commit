@@ -10,6 +10,7 @@ npm list --depth=0 >/dev/null 2>&1 || {
   echo "   Run 'npm install' to update it"
   exit 1
 }
+
 echo "📝 Formatting..."
 npx turbo format
 

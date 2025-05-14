@@ -39,6 +39,13 @@ jobs:
       - name: Run Unit Tests
         id: test
         run: npx turbo test
+      - name: License Scan
+        uses: aquasecurity/trivy-action@0.30.0
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          scanners: 'license'
+          severity: 'MEDIUM,HIGH,CRITICAL'
   documentation-checks:
     runs-on: ubuntu-latest
     steps:
