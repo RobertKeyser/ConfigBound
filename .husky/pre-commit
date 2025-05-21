@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
+#
+# This file is used to run the pre-commit hooks for the project.
+# If changes are made to this file, update the documentation in CONTRIBUTING.md.
 
-set -e  # Exit on any error
+# Exit on any error
+set -e
 
 echo "⚙️ Running pre-commit hooks..."
 
