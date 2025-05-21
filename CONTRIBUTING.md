@@ -12,7 +12,7 @@ Thank you for your interest in contributing to Config-bound! Here's how you can 
 
 1. Make your changes
 2. Test your changes thoroughly. See [Testing](#testing)
-3. Commit with descriptive messages, preferrably using [Conventional Commits](https://www.conventionalcommits.org/en) format: `git commit -m "feat: feature description"`
+3. Commit with descriptive messages, preferably using [Conventional Commits](https://www.conventionalcommits.org/en) format: `git commit -m "feat: feature description"`
 4. Push to your branch: `git push origin feature/your-feature-name`
 
 ## Testing
@@ -40,6 +40,7 @@ npm run test -- --group=integration
 
 This project uses Git hooks to ensure code quality. The hooks will automatically:
 
+- Check that the package-lock.json is up to date
 - Format your code using Prettier
 - Lint your code using ESLint
 
@@ -73,9 +74,11 @@ Note: Please avoid skipping hooks unless absolutely necessary.
 
 - When adding new files, follow existing naming and organization conventions.
 - Follow the existing code style as defined by Prettier and ESLint.
-- Write tests for new features
-- Update documentation as needed
-- Annotate relevant code using [TSDoc](https://tsdoc.org)
+- Write tests for new features.
+- Update documentation as needed.
+- Annotate relevant code using [TSDoc](https://tsdoc.org).
+- Use [Conventional Commits](https://www.conventionalcommits.org/en) for commit messages.
+- Follow the [dot-config](https://dot-config.github.io) standard for configuration files when possible.
 
 ## Documentation
 

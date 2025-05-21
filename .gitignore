@@ -1,4 +1,4 @@
-# JS/TS
+# JS/TS #
 node_modules
 
 # Builds
@@ -13,7 +13,7 @@ npm-debug.log*
 # Turbo build cache
 .turbo
 
-# General #
+# Development files #
 
 # VS Code configuration
 .vscode/
