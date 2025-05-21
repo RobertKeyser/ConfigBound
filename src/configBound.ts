@@ -1,6 +1,6 @@
-import { BindContext } from './binds/bindContext';
-import { Bind } from './binds/bind';
-import { Section } from './sections/section';
+import { BindContext } from './bind/bindContext';
+import { Bind } from './bind/bind';
+import { Section } from './section/section';
 import {
   ElementNotFoundException,
   SectionExistsException,
@@ -10,7 +10,9 @@ import { ConsoleLogger, Logger } from './utilities/logger';
 import { sanitizeName } from './utilities/sanitizeNames';
 
 /**
- * A ConfigBound is the top level object that contains all the {@link Section Sections}
+ * A ConfigBound is the top level object that contains all the {@link Section}s and {@link Bind}s.
+ * It is used to retrieve the values of the {@link Element Elements} from its binds.
+ * @see {@link docs 'docs/project/configBound.md'} for more information.
  */
 export class ConfigBound implements BindContext {
   readonly name: string;

@@ -2,7 +2,7 @@
 node_modules
 
 # Builds
-/dist
+**/dist
 
 # Coverage directory used by testing tools
 coverage
@@ -15,7 +15,7 @@ npm-debug.log*
 
 # General #
 
-# Visual Studio Code configuration
+# VS Code configuration
 .vscode/
 
 # macOS settings file 
@@ -23,3 +23,11 @@ npm-debug.log*
 
 # Husky
 .husky/_
+
+# Dependencies
+/node_modules
+
+# Environment variables
+.env
+.env.*
+!.env.example

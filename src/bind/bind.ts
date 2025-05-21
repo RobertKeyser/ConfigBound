@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { Element } from '../elements/element';
+import { Element } from '../element/element';
 
 /**
  * A Bind is the retrieves the values of the {@link Element   } from their source.

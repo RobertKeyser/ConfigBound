@@ -1,9 +1,9 @@
 import { ConfigBound } from './configBound';
-import { Section } from './sections/section';
+import { Section } from './section/section';
 import { SectionExistsException } from './utilities/errors';
 
 // Mock the Section class
-jest.mock('./sections/section', () => {
+jest.mock('./section/section', () => {
   return {
     // eslint-disable-next-line @typescript-eslint/naming-convention
     Section: jest.fn().mockImplementation((name) => {
@@ -37,13 +37,13 @@ describe('ConfigBound', () => {
       const configBoundAny = configBound as any;
 
       // Arrange
-      expect(configBoundAny.sections.length).toBe(0);
+      expect(configBoundAny.sections).toHaveLength(0);
 
       // Act
       configBound.addSection(mockSection1);
 
       // Assert
-      expect(configBoundAny.sections.length).toBe(1);
+      expect(configBoundAny.sections).toHaveLength(1);
       expect(configBoundAny.sections[0]).toBe(mockSection1);
     });
 
@@ -57,7 +57,7 @@ describe('ConfigBound', () => {
       configBound.addSection(mockSection2);
 
       // Assert
-      expect(configBoundAny['sections'].length).toBe(2);
+      expect(configBoundAny['sections']).toHaveLength(2);
       expect(configBoundAny.sections[0]).toBe(mockSection1);
       expect(configBoundAny.sections[1]).toBe(mockSection2);
     });
@@ -84,7 +84,7 @@ describe('ConfigBound', () => {
       configBound.addSection(section2);
 
       // Assert
-      expect(configBound.getSections().length).toBe(2);
+      expect(configBound.getSections()).toHaveLength(2);
       expect(configBound.getSections()[1]).toBe(section2);
     });
   });

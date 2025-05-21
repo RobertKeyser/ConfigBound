@@ -5,10 +5,11 @@ import js from '@eslint/js';
 import tseslint from 'typescript-eslint';
 import eslintConfigPrettier from 'eslint-config-prettier/flat';
 import pluginJest from 'eslint-plugin-jest';
+import turbo from 'eslint-plugin-turbo';
 
 export default defineConfig([
   {
-    ignores: ['dist/**']
+    ignores: ['dist/**', 'docs/**']
   },
   {
     files: ['**/*.{js,mjs,cjs,ts}'],
@@ -31,7 +32,7 @@ export default defineConfig([
     extends: ['js/recommended']
   },
   {
-    files: ['**/*.spec.js', '**/*.test.js'],
+    files: ['**/*.spec.{js,ts}', '**/*.test.{js,ts}'],
     plugins: { jest: pluginJest },
     languageOptions: {
       globals: pluginJest.environments.globals.globals
@@ -42,6 +43,16 @@ export default defineConfig([
       'jest/no-identical-title': 'error',
       'jest/prefer-to-have-length': 'warn',
       'jest/valid-expect': 'error'
+    }
+  },
+  {
+    plugins: {
+      turbo
+    },
+    files: ['**/*.{js,mjs,cjs,ts}'],
+    ignores: ['**/*.spec.{js,ts}', '**/*.test.{js,ts}'],
+    rules: {
+      'turbo/no-undeclared-env-vars': 'warn'
     }
   },
   tseslint.configs.recommended,

@@ -1,5 +1,5 @@
 import { Section } from './section';
-import { Element } from '../elements/element';
+import { Element } from '../element/element';
 import { ElementExistsException } from '../utilities/errors';
 
 /**
@@ -83,7 +83,7 @@ describe('Section', () => {
       expect(result).toContainEqual(dupB1);
       expect(result).toContainEqual(dupB2);
       expect(result).not.toContainEqual(uniqueC);
-      expect(result.length).toBe(4);
+      expect(result).toHaveLength(4);
     });
 
     it('should handle an empty array', () => {
