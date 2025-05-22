@@ -60,7 +60,7 @@ export function shouldLog(
   logLevelToCheck: LogLevel
 ): boolean {
   return logLevels.some(
-    (level) => LOG_LEVELS.indexOf(level) >= LOG_LEVELS.indexOf(logLevelToCheck)
+    (level) => LOG_LEVELS.indexOf(logLevelToCheck) >= LOG_LEVELS.indexOf(level)
   );
 }
 
