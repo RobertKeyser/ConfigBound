@@ -3,6 +3,7 @@ import { ConfigBound } from '../configBound';
 import { Element } from '../element/element';
 import { Section } from '../section/section';
 import { EnvVarBind } from './binds/envVar';
+import { ConsoleLogger, NullLogger } from '../utilities/logger';
 
 /**
  * @group integration
@@ -76,7 +77,14 @@ describe('BindContext functionality', () => {
     const envVarBind = new EnvVarBind('TEST_APP');
 
     // Create the config bound with bind and then add sections
-    configBound = new ConfigBound('my-app', [envVarBind], []);
+    configBound = new ConfigBound(
+      'my-app',
+      [envVarBind],
+      [],
+      process.env.TEST_USE_CONSOLE_LOGGER === 'true'
+        ? new ConsoleLogger()
+        : new NullLogger()
+    );
 
     // Add sections to the configBound
     configBound.addSection(serverSection);

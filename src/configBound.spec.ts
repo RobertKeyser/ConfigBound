@@ -1,6 +1,7 @@
 import { ConfigBound } from './configBound';
 import { Section } from './section/section';
 import { SectionExistsException } from './utilities/errors';
+import { ConsoleLogger, NullLogger } from './utilities/logger';
 
 // Mock the Section class
 jest.mock('./section/section', () => {
@@ -29,7 +30,14 @@ describe('ConfigBound', () => {
     jest.clearAllMocks();
 
     mockSection1 = new Section('TestSection1', []);
-    configBound = new ConfigBound('TestConfig', [], []);
+    configBound = new ConfigBound(
+      'TestConfig',
+      [],
+      [],
+      process.env.TEST_USE_CONSOLE_LOGGER === 'true'
+        ? new ConsoleLogger()
+        : new NullLogger()
+    );
   });
 
   describe('addSection', () => {

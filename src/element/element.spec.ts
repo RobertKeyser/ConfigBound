@@ -7,6 +7,7 @@ import {
 import { ConfigBound } from '../configBound';
 import { Section } from '../section/section';
 import { EnvVarBind } from '../bind/binds/envVar';
+import { ConsoleLogger, NullLogger } from '../utilities/logger';
 
 /**
  * @group unit
@@ -40,7 +41,14 @@ describe('Element', () => {
 
     // Create bind and config bound
     const envVarBind = new EnvVarBind();
-    configBound = new ConfigBound('TestConfig', [envVarBind], []);
+    configBound = new ConfigBound(
+      'TestConfig',
+      [envVarBind],
+      [],
+      process.env.TEST_USE_CONSOLE_LOGGER === 'true'
+        ? new ConsoleLogger()
+        : new NullLogger()
+    );
     configBound.addSection(section);
   });
 
