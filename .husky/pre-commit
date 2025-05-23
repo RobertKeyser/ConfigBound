@@ -15,10 +15,18 @@ npm list --depth=0 >/dev/null 2>&1 || {
   exit 1
 }
 
-echo "📝 Formatting..."
-npx turbo format
+echo "📝 Checking Formatting..."
+npx turbo format:ci || {
+  echo "💡 To fix formatting issues, run: "
+  echo "      npm run format"
+  exit 1
+}
 
-echo "🔎 Linting..."
-npx turbo lint
+echo "🔎 Checking Linting..."
+npx turbo lint:ci || {
+  echo "💡 To fix linting issues, run: "
+  echo "      npm run lint"
+  exit 1
+}
 
 echo "✅ Pre-commit hooks completed successfully!"
