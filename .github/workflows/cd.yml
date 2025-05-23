@@ -1,0 +1,24 @@
+on:
+  push:
+    branches: main
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.12.0
+          cache: 'npm'
+          cache-dependency-path: './package-lock.json'
+      - name: Install npm packages
+        id: npm-ci
+        run: npm ci --no-fund
+      - name: Run Unit Tests
+        id: test
+        run: npx turbo test
+      - uses: JS-DevTools/npm-publish@v3
+        id: npm-publish
+        with:
+          token: ${{ secrets.NPM_TOKEN }}
