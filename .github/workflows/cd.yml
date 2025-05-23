@@ -1,36 +1,68 @@
 name: cd
 on:
   push:
-    branches: main
+    branches:
+      - main
+
 env:
   HUSKY: 0
   TURBO_TELEMETRY_DISABLED: 1
+
+permissions:
+  contents: read
+  id-token: write # Required for provenance
+  packages: write
+
 jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
       - name: Cache turbo build setup
         uses: actions/cache@v4
         with:
           path: ./.turbo
-          key: ${{ runner.os }}-turbo-${{ github.sha }}
+          key: ${{ runner.os }}-turbo-${{ hashFiles('**/package-lock.json') }}-${{ github.sha }}
           restore-keys: |
+            ${{ runner.os }}-turbo-${{ hashFiles('**/package-lock.json') }}-
             ${{ runner.os }}-turbo-
+
       - uses: actions/setup-node@v4
         with:
           node-version: 22.12.0
           cache: 'npm'
           cache-dependency-path: './package-lock.json'
+          registry-url: 'https://registry.npmjs.org'
+
       - name: Install npm packages
-        id: npm-ci
         run: npm ci --no-fund
-      - name: Run Unit Tests
-        id: test
+
+      - name: Check Formatting
+        run: npx turbo format:ci
+
+      - name: Lint
+        run: npx turbo lint:ci
+
+      - name: Build
+        run: npx turbo build
+
+      - name: Run Tests
         run: npx turbo test
+
+      - name: Security Scan
+        uses: aquasecurity/trivy-action@0.30.0
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          scanners: 'vuln,license,secret'
+          severity: 'HIGH,CRITICAL'
+          exit-code: '1'
+
       - name: Publish to npm
         uses: JS-DevTools/npm-publish@v3
-        id: npm-publish
         with:
           token: ${{ secrets.NPM_TOKEN }}
+          provenance: true
+          access: public
