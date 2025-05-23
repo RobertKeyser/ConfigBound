@@ -44,26 +44,38 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Run Compliance Checks
-        run: npx turbo compliance:ci
-      - name: License Scan
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.12.0
+          cache: 'npm'
+          cache-dependency-path: './package-lock.json'
+      - name: Install npm packages
+        run: npm ci --no-fund
+
+      - name: Cache Trivy DB
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/trivy
+          key: ${{ runner.os }}-trivy-db-${{ github.run_id }}
+          restore-keys: |
+            ${{ runner.os }}-trivy-db-
+
+      - name: Security Scan
         uses: aquasecurity/trivy-action@0.30.0
         with:
           scan-type: 'fs'
           scan-ref: '.'
-          scanners: 'license'
+          scanners: 'vuln,license,secret,config'
           severity: 'MEDIUM,HIGH,CRITICAL'
-      - name: Run Snyk Security Scan
-        uses: snyk/actions/node@0.4.0
-        continue-on-error: true # To make sure that SARIF upload gets called
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        with:
-          args: --sarif-file-output=snyk.sarif
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+
       - name: Upload SARIF to GitHub
         uses: github/codeql-action/upload-sarif@v3
+        if: always()
         with:
-          sarif_file: snyk.sarif
+          sarif_file: trivy-results.sarif
   documentation-checks:
     runs-on: ubuntu-latest
     steps:
